@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getAccessToken, clearTokens } from '@/lib/storage';
 import { login } from '@/api/auth';
 import { router, useSegments } from 'expo-router';
+import { registerForPushNotificationsAsync, getLastPushToken } from '@/lib/push';
+import { registerDeviceToken } from '@/api/notifications';
 
 interface User { id: string; role: string; hotelId?: string | null }
 interface AuthContextValue {
@@ -42,6 +44,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         try {
             const u = await login(email, password);
             setUser(u);
+            // Attempt to register push token (best-effort)
+            try {
+                const token = await registerForPushNotificationsAsync();
+                if (token) {
+                    await registerDeviceToken(token, 'android');
+                }
+            } catch { }
             router.replace('/dashboard');
         } finally { setLoading(false); }
     };
