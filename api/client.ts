@@ -20,7 +20,9 @@ async function request<T>(
     const token = await getAccessToken();
     if (token) headers["Authorization"] = `Bearer ${token}`;
 
-    const res = await fetch(`${CONFIG.API_BASE}${path}`, {
+    const url = `${CONFIG.API_BASE}${path}`;
+    console.log("[http]", method, url); // instrumentation
+    const res = await fetch(url, {
         method,
         headers,
         body: body ? JSON.stringify(body) : undefined
@@ -33,6 +35,7 @@ async function request<T>(
 
     if (!res.ok) {
         const text = await res.text();
+        console.warn("[http] error", res.status, text);
         throw new Error(text || `HTTP ${res.status}`);
     }
     return res.json();
@@ -42,7 +45,9 @@ async function tryRefresh(): Promise<boolean> {
     const refreshToken = await getRefreshToken();
     if (!refreshToken) return false;
     try {
-        const res = await fetch(`${CONFIG.API_BASE}/mobile/refresh`, {
+        const refreshUrl = `${CONFIG.API_BASE}/mobile/refresh`;
+        console.log("[http] refresh POST", refreshUrl);
+        const res = await fetch(refreshUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ refreshToken })

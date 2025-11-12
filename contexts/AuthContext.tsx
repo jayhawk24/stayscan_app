@@ -33,9 +33,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     useEffect(() => {
         if (!loading) {
-            const inAuthGroup = segments[0] === '(auth)';
-            if (!user && !inAuthGroup) router.replace('/login');
-            if (user && inAuthGroup) router.replace('/dashboard');
+            const atLogin = segments[0] === 'login';
+            if (!user && !atLogin) router.replace('/login');
+            if (user && atLogin) router.replace('/dashboard');
         }
     }, [segments, user, loading]);
 
