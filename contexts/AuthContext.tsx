@@ -9,7 +9,7 @@ interface User { id: string; role: string; hotelId?: string | null }
 interface AuthContextValue {
     user: User | null;
     loading: boolean;
-    loginUser: (email: string, password: string) => Promise<void>;
+    loginUser: (email: string, password: string, remember?: boolean) => Promise<void>;
     logout: () => Promise<void>;
 }
 
@@ -39,10 +39,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }, [segments, user, loading]);
 
-    const loginUser = async (email: string, password: string) => {
+    const loginUser = async (email: string, password: string, remember: boolean = false) => {
         setLoading(true);
         try {
-            const u = await login(email, password);
+            const u = await login(email, password, undefined, 'android', remember);
             setUser(u);
             // Attempt to register push token (best-effort)
             try {

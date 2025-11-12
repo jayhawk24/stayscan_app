@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import { useAuth } from '@/contexts/AuthContext';
 import { Text } from '@/components/ui/Text';
 import { Button } from '@/components/ui/Button';
@@ -8,17 +8,20 @@ import { Input } from '@/components/ui/Input';
 import { LinearGradient } from 'expo-linear-gradient';
 import Container from '@/components/ui/Container';
 import { View as RNView } from 'react-native';
+import { router } from 'expo-router';
+import Checkbox from '@/components/ui/Checkbox';
 
 export default function LoginScreen() {
     const { loginUser, loading } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [remember, setRemember] = useState(false);
 
     const submit = async () => {
         setError(null);
         try {
-            await loginUser(email, password);
+            await loginUser(email, password, remember);
         } catch (e: any) {
             setError(e.message || 'Login failed');
         }
@@ -50,8 +53,13 @@ export default function LoginScreen() {
                     secureTextEntry
                 />
                 <View style={styles.inlineBetween}>
-                    <Text variant="caption" color={colors.text.secondary}>Remember me</Text>
-                    <Text variant="caption" color={colors.brand.primary}>Forgot password?</Text>
+                    <Pressable onPress={() => setRemember(!remember)} style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                        <Checkbox checked={remember} onChange={setRemember} />
+                        <Text variant="caption" color={colors.text.secondary}>Remember me</Text>
+                    </Pressable>
+                    <Pressable onPress={() => router.push('/forgot-password')}>
+                        <Text variant="caption" color={colors.brand.primary}>Forgot password?</Text>
+                    </Pressable>
                 </View>
                 <Button
                     title={loading ? '🔄 Signing in...' : '🔑 Sign In'}
@@ -60,7 +68,7 @@ export default function LoginScreen() {
                 />
                 <View style={{ height: spacing.lg }} />
                 <Text variant="body" color={colors.text.secondary} style={{ textAlign: 'center', marginBottom: spacing.sm }}>New to Bello?</Text>
-                <Button title="🏨 Create Hotel Account" color={colors.brand.accent} onPress={() => { }} />
+                <Button title="🏨 Create Hotel Account" color={colors.brand.accent} onPress={() => { router.push('/hotel/create'); }} />
                 <View style={styles.divider} />
             </Container>
         </LinearGradient>
