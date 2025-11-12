@@ -5,6 +5,7 @@ export type Room = {
     roomNumber: string;
     roomType: string;
     accessCode: string;
+    hotelId: string;
     isOccupied: boolean;
     currentBookingId: string | null;
     createdAt: string;

@@ -28,9 +28,21 @@ async function request<T>(
         body: body ? JSON.stringify(body) : undefined
     });
 
-    if (res.status === 401 && retry) {
-        const refreshed = await tryRefresh();
-        if (refreshed) return request<T>(method, path, body, false);
+    if (res.status === 401) {
+        // Try to parse body to detect token expiration error
+        let errBody: any = null;
+        try {
+            const text = await res.text();
+            errBody = text ? JSON.parse(text) : null;
+        } catch {}
+
+        if (retry && errBody?.error === "token_expired") {
+            const refreshed = await tryRefresh();
+            if (refreshed) return request<T>(method, path, body, false);
+        }
+        // Fallthrough to throw
+        const msg = errBody?.error || `HTTP 401`;
+        throw new Error(msg);
     }
 
     if (!res.ok) {

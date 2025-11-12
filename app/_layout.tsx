@@ -10,6 +10,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { colors } from '@/theme/tokens';
 import { useFonts as useRaleway, Raleway_700Bold } from '@expo-google-fonts/raleway';
 import { useFonts as useMontserrat, Montserrat_400Regular, Montserrat_500Medium } from '@expo-google-fonts/montserrat';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -61,16 +62,20 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <ThemeProvider value={navTheme}>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="login" />
-          <Stack.Screen name="dashboard/index" />
-          <Stack.Screen name="requests/[id]" />
-          <Stack.Screen name="subscription" />
-          <Stack.Screen name="hotel/index" />
-          <Stack.Screen name="hotel/edit" />
-        </Stack>
-        <StatusBar style="auto" />
+        <SafeAreaProvider>
+          <SafeAreaView style={{ flex: 1, backgroundColor: colors.surface.background }} edges={["top", "left", "right", "bottom"]}>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="login" />
+              <Stack.Screen name="dashboard/index" />
+              <Stack.Screen name="requests/[id]" />
+              <Stack.Screen name="subscription" />
+              <Stack.Screen name="hotel/index" />
+              <Stack.Screen name="hotel/edit" />
+            </Stack>
+            <StatusBar style="auto" />
+          </SafeAreaView>
+        </SafeAreaProvider>
       </ThemeProvider>
     </AuthProvider>
   );
