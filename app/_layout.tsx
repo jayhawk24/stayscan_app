@@ -1,5 +1,7 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
+import React, { useEffect } from 'react';
+import * as Notifications from 'expo-notifications';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
@@ -12,6 +14,28 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+
+  useEffect(() => {
+    // Show alerts for notifications received in foreground
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+      }),
+    });
+
+    const sub1 = Notifications.addNotificationReceivedListener(() => {
+      // Could trigger global state updates here if needed
+    });
+    const sub2 = Notifications.addNotificationResponseReceivedListener(() => {
+      // Handle taps on notifications if we add deep linking later
+    });
+    return () => {
+      sub1.remove();
+      sub2.remove();
+    };
+  }, []);
 
   return (
     <AuthProvider>

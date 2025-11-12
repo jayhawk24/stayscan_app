@@ -30,3 +30,7 @@ export async function registerDeviceToken(
 ) {
     return http.post(`/notifications/device-tokens`, { deviceToken, platform });
 }
+
+    export async function deregisterDeviceToken(deviceToken: string) {
+         return http.del(`/notifications/device-tokens?deviceToken=${encodeURIComponent(deviceToken)}`);
+    }

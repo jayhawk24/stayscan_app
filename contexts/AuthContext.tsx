@@ -3,7 +3,7 @@ import { getAccessToken, clearTokens } from '@/lib/storage';
 import { login } from '@/api/auth';
 import { router, useSegments } from 'expo-router';
 import { registerForPushNotificationsAsync, getLastPushToken } from '@/lib/push';
-import { registerDeviceToken } from '@/api/notifications';
+import { registerDeviceToken, deregisterDeviceToken } from '@/api/notifications';
 
 interface User { id: string; role: string; hotelId?: string | null }
 interface AuthContextValue {
@@ -56,6 +56,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const logout = async () => {
+        // Best-effort: deregister device token on logout
+        try {
+            const token = await getLastPushToken();
+            if (token) {
+                await deregisterDeviceToken(token);
+            }
+        } catch (e) {
+            // non-fatal
+            console.warn('Device token deregistration failed', e);
+        }
         await clearTokens();
         setUser(null);
         router.replace('/login');

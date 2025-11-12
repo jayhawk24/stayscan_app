@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { fetchRequests, ServiceRequest } from '@/api/requests';
 import { fetchNotifications, NotificationItem, markAllNotificationsRead } from '@/api/notifications';
 import { Link } from 'expo-router';
+import * as Notifications from 'expo-notifications';
 
 export default function DashboardScreen() {
     const { user, logout } = useAuth();
@@ -20,6 +21,14 @@ export default function DashboardScreen() {
     };
 
     useEffect(() => { load(); }, []);
+
+    // Refresh data when a notification arrives while on dashboard
+    useEffect(() => {
+        const sub = Notifications.addNotificationReceivedListener(() => {
+            load();
+        });
+        return () => sub.remove();
+    }, []);
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={{ padding: 24 }}>
