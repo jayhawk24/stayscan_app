@@ -125,36 +125,6 @@ export default function DashboardScreen() {
                         </Card>
                     </View>
 
-                    <View style={{ height: spacing.lg }} />
-                    <Button title="Refresh" onPress={load} />
-                    <Text variant="subtitle" style={styles.sectionTitle}>Service Requests</Text>
-                    {loading && <Text>Loading...</Text>}
-                    {!loading && requests.map((r) => (
-                        <Link key={r.id} href={{ pathname: '/requests/[id]', params: { id: r.id } }} asChild>
-                            <Card style={{ marginBottom: spacing.md }}>
-                                <View style={styles.row}>
-                                    <Text variant="subtitle">{r.title}</Text>
-                                    <Badge label={r.priority} tone={priorityTone(r.priority)} />
-                                </View>
-                                <View style={styles.row}>
-                                    <Text color={colors.brand.primary}>{r.status}</Text>
-                                    <Text>Room {r.room.roomNumber}</Text>
-                                </View>
-                            </Card>
-                        </Link>
-                    ))}
-                    <Text variant="subtitle" style={styles.sectionTitle}>Notifications</Text>
-                    <Button title="Mark All Read" onPress={async () => { await markAllNotificationsRead(); load(); }} />
-                    {notifications.map((n) => (
-                        <Card key={n.id} style={!n.isRead ? styles.unread : undefined}>
-                            <Text variant="subtitle">{n.title}</Text>
-                            <Text>{n.message}</Text>
-                        </Card>
-                    ))}
-                    <View style={{ height: 20 }} />
-                    <Link href="/subscription" asChild><Button title="Subscription" /></Link>
-                    <Link href="/hotel" asChild><Button title="Hotel Info" /></Link>
-                    <View style={{ height: 20 }} />
                     <Button color={colors.brand.danger} title="Logout" onPress={logout} />
                 </Container>
             </ScrollView>

@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Pressable } from 'react-native';
+import {
+    View,
+    StyleSheet,
+    Pressable,
+    ScrollView,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableWithoutFeedback,
+    Keyboard,
+} from 'react-native';
 import { useAuth } from '@/contexts/AuthContext';
 import { Text } from '@/components/ui/Text';
 import { Button } from '@/components/ui/Button';
@@ -31,54 +40,71 @@ export default function LoginScreen() {
 
     return (
         <LinearGradient colors={["#fefce8", "#fef3c7"]} style={{ flex: 1 }}>
-            <Container style={styles.outer}>
-                <RNView style={styles.logoCircle}>
-                    <Text variant="title" color={colors.text.inverse} style={{ textAlign: 'center' }}>🏨</Text>
-                </RNView>
-                <Text variant="title" style={styles.heading}>Welcome Back</Text>
-                <Text variant="body" color={colors.text.secondary} style={styles.subheading}>Sign in to your account</Text>
-                {error && <Text variant="body" color={colors.brand.danger} style={styles.error}>{error}</Text>}
-                <Input
-                    label="Email Address"
-                    placeholder="hotel@example.com"
-                    value={email}
-                    onChangeText={setEmail}
-                    autoCapitalize="none"
-                    keyboardType="email-address"
-                    autoCorrect={false}
-                />
-                <Input
-                    label="Password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
-                />
-                <View style={styles.inlineBetween}>
-                    <Pressable onPress={() => setRemember(!remember)} style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                        <Checkbox checked={remember} onChange={setRemember} />
-                        <Text variant="caption" color={colors.text.secondary}>Remember me</Text>
-                    </Pressable>
-                    <Pressable onPress={() => router.push('/forgot-password')}>
-                        <Text variant="caption" color={colors.brand.primary}>Forgot password?</Text>
-                    </Pressable>
-                </View>
-                <Button
-                    title={loading ? '🔄 Signing in...' : '🔑 Sign In'}
-                    onPress={submit}
-                    disabled={loading || !email || !password}
-                />
-                <View style={{ height: spacing.lg }} />
-                <Text variant="body" color={colors.text.secondary} style={{ textAlign: 'center', marginBottom: spacing.sm }}>New to Bello?</Text>
-                <Button title="🏨 Create Hotel Account" color={colors.brand.accent} onPress={() => { WebBrowser.openBrowserAsync(`${CONFIG.WEB_BASE}/register`); }} />
-                <View style={styles.divider} />
-            </Container>
+            <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                keyboardVerticalOffset={Platform.select({ ios: 0, android: 0 })}
+            >
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+                    <ScrollView
+                        contentContainerStyle={styles.scrollContainer}
+                        keyboardShouldPersistTaps="handled"
+                        showsVerticalScrollIndicator={false}
+                    >
+                        <Container style={styles.outer}>
+                            <RNView style={styles.logoCircle}>
+                                <Text variant="title" color={colors.text.inverse} style={{ textAlign: 'center' }}>🏨</Text>
+                            </RNView>
+                            <Text variant="title" style={styles.heading}>Bello</Text>
+                            <Text variant="body" color={colors.text.secondary} style={styles.subheading}>Sign in to your account</Text>
+                            {error && <Text variant="body" color={colors.brand.danger} style={styles.error}>{error}</Text>}
+                            <Input
+                                label="Email Address"
+                                placeholder="hotel@example.com"
+                                value={email}
+                                onChangeText={setEmail}
+                                autoCapitalize="none"
+                                keyboardType="email-address"
+                                autoCorrect={false}
+                            />
+                            <Input
+                                label="Password"
+                                placeholder="••••••••"
+                                value={password}
+                                onChangeText={setPassword}
+                                secureTextEntry
+                                secureToggle
+                                autoCapitalize="none"
+                            />
+                            <View style={styles.inlineBetween}>
+                                <Pressable onPress={() => setRemember(!remember)} style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                                    <Checkbox checked={remember} onChange={setRemember} />
+                                    <Text variant="caption" color={colors.text.secondary}>Remember me</Text>
+                                </Pressable>
+                                <Pressable onPress={() => router.push('/forgot-password')}>
+                                    <Text variant="caption" color={colors.brand.primary}>Forgot password?</Text>
+                                </Pressable>
+                            </View>
+                            <Button
+                                title={loading ? '🔄 Signing in...' : '🔑 Sign In'}
+                                onPress={submit}
+                                disabled={loading || !email || !password}
+                            />
+                            <View style={{ height: spacing.lg }} />
+                            <Text variant="body" color={colors.text.secondary} style={{ textAlign: 'center', marginBottom: spacing.sm }}>New to Bello?</Text>
+                            <Button title="🏨 Create Hotel Account" color={colors.brand.accent} onPress={() => { WebBrowser.openBrowserAsync(`${CONFIG.WEB_BASE}/register`); }} />
+                            <View style={styles.divider} />
+                        </Container>
+                    </ScrollView>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
         </LinearGradient>
     );
 }
 
 const styles = StyleSheet.create({
-    outer: { flex: 1, justifyContent: 'center' },
+    scrollContainer: { flexGrow: 1, justifyContent: 'center', paddingBottom: spacing.xl },
+    outer: { justifyContent: 'center' },
     logoCircle: {
         width: 64,
         height: 64,
