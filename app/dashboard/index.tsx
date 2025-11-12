@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { useAuth } from '@/contexts/AuthContext';
 import { fetchRequests, ServiceRequest } from '@/api/requests';
 import { fetchNotifications, NotificationItem, markAllNotificationsRead } from '@/api/notifications';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import * as Notifications from 'expo-notifications';
 import { Text } from '@/components/ui/Text';
 import { Button } from '@/components/ui/Button';
@@ -71,7 +71,7 @@ export default function DashboardScreen() {
                                 {isAdmin ? 'Configure rooms and generate QR codes for guests' : 'View rooms and download QR codes for guest access'}
                             </Text>
                             <View style={{ height: spacing.sm }} />
-                            <Button title={isAdmin ? 'Manage Rooms' : 'View Rooms'} onPress={() => openWeb('/dashboard/rooms')} />
+                            <Button title={isAdmin ? 'Manage Rooms' : 'View Rooms'} onPress={() => router.push('/rooms')} />
                         </Card>
 
                         <Card>
@@ -121,7 +121,7 @@ export default function DashboardScreen() {
                             <Text variant="subtitle">🛏️ Add Rooms</Text>
                             <Text color={colors.text.secondary}>Configure your rooms and generate QR codes for guest access.</Text>
                             <View style={{ height: spacing.sm }} />
-                            <Button title="Add Rooms" onPress={() => openWeb('/dashboard/rooms/add')} />
+                            <Button title="Add Rooms" onPress={() => router.push('/rooms/add')} />
                         </Card>
                     </View>
 
