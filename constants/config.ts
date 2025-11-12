@@ -21,6 +21,23 @@ function resolveApiBase() {
     return "http://192.168.1.22:3000/api";
 }
 
+function resolveWebBase() {
+    const envBase = process.env.EXPO_PUBLIC_WEB_BASE;
+    if (envBase && typeof envBase === "string") {
+        return envBase.replace(/\/$/, "");
+    }
+    const hostUri =
+        (Constants as any).expoConfig?.hostUri ||
+        (Constants as any).manifest2?.hostUri ||
+        (Constants as any).manifest?.hostUri;
+    if (hostUri && typeof hostUri === "string") {
+        const host = hostUri.split(":")[0];
+        if (host) return `http://${host}:3000`;
+    }
+    return "http://192.168.1.22:3000";
+}
+
 export const CONFIG = {
-    API_BASE: resolveApiBase()
+    API_BASE: resolveApiBase(),
+    WEB_BASE: resolveWebBase()
 };

@@ -32,10 +32,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
 
     useEffect(() => {
-        if (!loading) {
-            const atLogin = segments[0] === 'login';
-            if (!user && !atLogin) router.replace('/login');
-            if (user && atLogin) router.replace('/dashboard');
+        if (loading) return;
+        const isPublic = (() => {
+            if (!segments || !segments.length) return false;
+            const [root, second] = segments;
+            if (root === 'login' || root === 'forgot-password') return true;
+            // Removed in-app hotel/create; now opens external web page
+            return false;
+        })();
+        if (!user && !isPublic) {
+            router.replace('/login');
+            return;
+        }
+        if (user && isPublic) {
+            router.replace('/dashboard');
         }
     }, [segments, user, loading]);
 

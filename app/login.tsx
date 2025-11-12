@@ -9,6 +9,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Container from '@/components/ui/Container';
 import { View as RNView } from 'react-native';
 import { router } from 'expo-router';
+import * as WebBrowser from 'expo-web-browser';
+import { CONFIG } from '@/constants/config';
 import Checkbox from '@/components/ui/Checkbox';
 
 export default function LoginScreen() {
@@ -68,7 +70,7 @@ export default function LoginScreen() {
                 />
                 <View style={{ height: spacing.lg }} />
                 <Text variant="body" color={colors.text.secondary} style={{ textAlign: 'center', marginBottom: spacing.sm }}>New to Bello?</Text>
-                <Button title="🏨 Create Hotel Account" color={colors.brand.accent} onPress={() => { router.push('/hotel/create'); }} />
+                <Button title="🏨 Create Hotel Account" color={colors.brand.accent} onPress={() => { WebBrowser.openBrowserAsync(`${CONFIG.WEB_BASE}/register`); }} />
                 <View style={styles.divider} />
             </Container>
         </LinearGradient>

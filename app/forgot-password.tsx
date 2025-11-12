@@ -6,6 +6,7 @@ import { Text } from '@/components/ui/Text';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { colors, spacing } from '@/theme/tokens';
+import { router } from 'expo-router';
 
 export default function ForgotPasswordScreen() {
     const [email, setEmail] = useState('');
@@ -32,9 +33,12 @@ export default function ForgotPasswordScreen() {
                 </Text>
                 {err && <Text variant="body" color={colors.brand.danger} style={{ marginBottom: spacing.sm }}>{err}</Text>}
                 {sent ? (
-                    <Text variant="body" color={colors.brand.primary} style={{ textAlign: 'center' }}>
-                        If an account exists for {email}, you'll receive an email shortly.
-                    </Text>
+                    <Container style={{ alignItems: 'center', gap: 20 }}>
+                        <Text variant="body" color={colors.brand.primary} style={{ textAlign: 'center' }}>
+                            If an account exists for {email}, you'll receive an email shortly.
+                        </Text>
+                        <Button title="Back to Login" onPress={() => router.push('/login')} />
+                    </Container>
                 ) : (
                     <>
                         <Input label="Email Address" placeholder="you@example.com" value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" />
