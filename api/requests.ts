@@ -31,3 +31,17 @@ export async function updateRequestStatus(requestId: string, status: string) {
     }>("/staff/service-requests", { requestId, status });
     return data.serviceRequest;
 }
+
+export async function deleteRequest(requestId: string) {
+    const data = await http.del<{ success: boolean }>(
+        `/staff/service-requests?requestId=${encodeURIComponent(requestId)}`
+    );
+    return data.success;
+}
+
+export async function deleteRequestsForRoom(roomId: string) {
+    const data = await http.del<{ success: boolean; message?: string }>(
+        `/staff/service-requests?roomId=${encodeURIComponent(roomId)}`
+    );
+    return data.success;
+}

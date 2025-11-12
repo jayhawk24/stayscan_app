@@ -77,7 +77,7 @@ export default function DashboardScreen() {
                             <Text variant="subtitle">📋 Service Requests</Text>
                             <Text color={colors.text.secondary}>View and manage incoming guest service requests</Text>
                             <View style={{ height: spacing.sm }} />
-                            <Button title="View Requests" onPress={() => load()} />
+                            <Button title="View Requests" onPress={() => router.push('/requests')} />
                         </Card>
 
                         {isAdmin && (
@@ -107,24 +107,7 @@ export default function DashboardScreen() {
                         <Card style={styles.statCard}><Text variant="subtitle" color={colors.brand.warning || colors.brand.accent}>N/A</Text><Text variant="caption" color={colors.text.secondary}>Plan</Text></Card>
                     </View>
 
-                    {/* Getting Started */}
-                    <Text variant="subtitle" style={styles.sectionTitle}>🚀 Getting Started</Text>
-                    <View style={{ gap: spacing.md }}>
-                        <Card>
-                            <Text variant="subtitle">🏨 Complete Hotel Setup</Text>
-                            <Text color={colors.text.secondary}>Add your hotel details, address, and contact information.</Text>
-                            <View style={{ height: spacing.sm }} />
-                            <Button title="Complete Setup" onPress={() => openWeb('/dashboard/hotel/setup')} />
-                        </Card>
-                        <Card>
-                            <Text variant="subtitle">🛏️ Add Rooms</Text>
-                            <Text color={colors.text.secondary}>Configure your rooms and generate QR codes for guest access.</Text>
-                            <View style={{ height: spacing.sm }} />
-                            <Button title="Add Rooms" onPress={() => router.push('/rooms/add')} />
-                        </Card>
-                    </View>
-
-                    <Button color={colors.brand.danger} title="Logout" onPress={logout} />
+                    <Button style={{ marginTop: spacing.lg }} color={colors.brand.danger} title="Logout" onPress={logout} />
                 </Container>
             </ScrollView>
         </LinearGradient>

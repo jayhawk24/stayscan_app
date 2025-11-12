@@ -21,7 +21,7 @@ export const Text: React.FC<TextProps> = ({ variant = 'body', style, color, chil
             case 'caption':
                 return { fontSize: 12, fontFamily: fonts.bodyRegular } as const;
             case 'button':
-                return { fontSize: 16, fontFamily: fonts.body, textTransform: 'uppercase' } as const;
+                return { fontSize: 14, fontFamily: fonts.body } as const;
             default:
                 return { fontSize: 14, fontFamily: fonts.body } as const;
         }
