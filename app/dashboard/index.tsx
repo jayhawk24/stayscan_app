@@ -47,7 +47,7 @@ export default function DashboardScreen() {
             <ScrollView style={styles.scroll} contentContainerStyle={{ paddingVertical: spacing.xl }}>
                 <Container>
                     {/* Hero */}
-                    <Text variant="title" style={styles.heading}>Welcome to Your Dashboard! 🎉</Text>
+                    <Text variant="hero" style={styles.heading}>Welcome to Your Dashboard! 🎉</Text>
                     <Text variant="body" color={colors.text.secondary} style={{ marginBottom: spacing.lg }}>
                         {isAdmin
                             ? 'Manage your hotel and provide excellent guest experiences.'
@@ -99,25 +99,13 @@ export default function DashboardScreen() {
                         )}
                     </View>
 
-                    {/* Quick Stats */}
+                    {/* Quick Stats (mobile friendly grid) */}
                     <Text variant="subtitle" style={styles.sectionTitle}>Quick Stats</Text>
-                    <View style={{ gap: spacing.md }}>
-                        <Card>
-                            <Text variant="title" color={colors.brand.accent}>0</Text>
-                            <Text color={colors.text.secondary}>Total Rooms</Text>
-                        </Card>
-                        <Card>
-                            <Text variant="title" color={colors.brand.primary}>{requests.filter(r => r.status !== 'completed').length}</Text>
-                            <Text color={colors.text.secondary}>Active Requests</Text>
-                        </Card>
-                        <Card>
-                            <Text variant="title" color={colors.brand.success || colors.brand.accent}>0</Text>
-                            <Text color={colors.text.secondary}>Staff Members</Text>
-                        </Card>
-                        <Card>
-                            <Text variant="title" color={colors.brand.warning || colors.brand.accent}>N/A</Text>
-                            <Text color={colors.text.secondary}>Current Plan</Text>
-                        </Card>
+                    <View style={styles.statsGrid}>
+                        <Card style={styles.statCard}><Text variant="subtitle" color={colors.brand.accent}>0</Text><Text variant="caption" color={colors.text.secondary}>Rooms</Text></Card>
+                        <Card style={styles.statCard}><Text variant="subtitle" color={colors.brand.primary}>{requests.filter(r => r.status !== 'completed').length}</Text><Text variant="caption" color={colors.text.secondary}>Active</Text></Card>
+                        <Card style={styles.statCard}><Text variant="subtitle" color={colors.brand.success || colors.brand.accent}>0</Text><Text variant="caption" color={colors.text.secondary}>Staff</Text></Card>
+                        <Card style={styles.statCard}><Text variant="subtitle" color={colors.brand.warning || colors.brand.accent}>N/A</Text><Text variant="caption" color={colors.text.secondary}>Plan</Text></Card>
                     </View>
 
                     {/* Getting Started */}
@@ -190,4 +178,6 @@ const styles = StyleSheet.create({
     sectionTitle: { marginVertical: spacing.md },
     row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
     unread: { borderColor: colors.brand.accent, borderWidth: 1 },
+    statsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+    statCard: { width: '48%', alignItems: 'center', paddingVertical: spacing.md },
 });
