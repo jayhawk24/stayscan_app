@@ -1,4 +1,4 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import React, { useEffect } from 'react';
 import * as Notifications from 'expo-notifications';
@@ -7,6 +7,9 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { colors } from '@/theme/tokens';
+import { useFonts as useRaleway, Raleway_700Bold } from '@expo-google-fonts/raleway';
+import { useFonts as useMontserrat, Montserrat_400Regular, Montserrat_500Medium } from '@expo-google-fonts/montserrat';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -14,6 +17,8 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const [ralewayLoaded] = useRaleway({ Raleway_700Bold });
+  const [montLoaded] = useMontserrat({ Montserrat_400Regular, Montserrat_500Medium });
 
   useEffect(() => {
     // Show alerts for notifications received in foreground
@@ -37,9 +42,25 @@ export default function RootLayout() {
     };
   }, []);
 
+  if (!ralewayLoaded || !montLoaded) return null;
+
+  const navTheme = {
+    ...DefaultTheme,
+    dark: false,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: colors.brand.primary,
+      background: colors.surface.background,
+      card: colors.surface.card,
+      text: colors.text.primary,
+      border: colors.surface.border,
+      notification: colors.brand.accent,
+    },
+  } as const;
+
   return (
     <AuthProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={navTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
