@@ -60,7 +60,7 @@ export default function DashboardScreen() {
                                 <Text variant="subtitle">🏨 Hotel Profile</Text>
                                 <Text color={colors.text.secondary}>Setup your hotel details</Text>
                                 <View style={{ height: spacing.sm }} />
-                                <Button title="Manage Hotel" onPress={() => openWeb('/dashboard/hotel')} />
+                                <Button title="Manage Hotel" onPress={() => router.push('/hotel')} />
                             </Card>
                         )}
 
