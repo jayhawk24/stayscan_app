@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, ScrollView, StyleSheet, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import Container from '@/components/ui/Container';
 import { Text } from '@/components/ui/Text';
 import { Card } from '@/components/ui/Card';
@@ -9,6 +10,7 @@ import { spacing, colors } from '@/theme/tokens';
 import { http } from '@/api/client';
 
 export default function ManageHotelScreen() {
+    const router = useRouter();
     const [hotel, setHotel] = useState<any | null>(null);
     const [tvGuides, setTvGuides] = useState<any[]>([]);
     const [wifiGuides, setWifiGuides] = useState<any[]>([]);
@@ -97,6 +99,28 @@ export default function ManageHotelScreen() {
                                     </View>
                                 ) : (
                                     <Text color={colors.text.secondary}>No hotel found.</Text>
+                                )}
+                            </Card>
+
+                            {/* Subscription Card */}
+                            <Card style={{ marginTop: spacing.md }}>
+                                <Text variant="subtitle">Subscription</Text>
+                                {loading ? (
+                                    <Text color={colors.text.secondary}>Loading…</Text>
+                                ) : hotel ? (
+                                    <View style={{ marginTop: spacing.sm, gap: 6 }}>
+                                        <Text>
+                                            Plan: {hotel.subscriptionPlan ? String(hotel.subscriptionPlan).charAt(0).toUpperCase() + String(hotel.subscriptionPlan).slice(1) : 'N/A'}
+                                        </Text>
+                                        <Text>
+                                            Status: {hotel.subscriptionStatus ? String(hotel.subscriptionStatus).charAt(0).toUpperCase() + String(hotel.subscriptionStatus).slice(1) : 'N/A'}
+                                        </Text>
+                                        <View style={{ alignItems: 'flex-start', marginTop: spacing.sm }}>
+                                            <Button title="Manage Subscription" onPress={() => router.push('/subscription')} />
+                                        </View>
+                                    </View>
+                                ) : (
+                                    <Text color={colors.text.secondary}>No subscription data.</Text>
                                 )}
                             </Card>
 
