@@ -9,15 +9,15 @@
             },
             "env": {
                 "JAVA_HOME": "/usr/lib/jvm/java-17-openjdk-amd64",
-                "EXPO_PUBLIC_API_BASE": "https://belloo.vercel.app/api",
-                "EXPO_PUBLIC_WEB_BASE": "https://belloo.vercel.app"
+                "EXPO_PUBLIC_API_BASE": "https://stayscan.in/api",
+                "EXPO_PUBLIC_WEB_BASE": "https://stayscan.in"
             }
         },
         "production": {
             "channel": "production",
             "env": {
-                "EXPO_PUBLIC_API_BASE": "https://belloo.vercel.app/api",
-                "EXPO_PUBLIC_WEB_BASE": "https://belloo.vercel.app"
+                "EXPO_PUBLIC_API_BASE": "https://stayscan.in/api",
+                "EXPO_PUBLIC_WEB_BASE": "https://stayscan.in"
             }
         }
     },

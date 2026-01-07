@@ -8,6 +8,7 @@ import {
     Platform,
     TouchableWithoutFeedback,
     Keyboard,
+    Image,
 } from 'react-native';
 import { useAuth } from '@/contexts/AuthContext';
 import { Text } from '@/components/ui/Text';
@@ -53,9 +54,9 @@ export default function LoginScreen() {
                     >
                         <Container style={styles.outer}>
                             <RNView style={styles.logoCircle}>
-                                <Text variant="title" color={colors.text.inverse} style={{ textAlign: 'center' }}>🏨</Text>
+                                <Image source={require('@/assets/images/logo.png')} style={styles.logo} resizeMode="contain" />
                             </RNView>
-                            <Text variant="title" style={styles.heading}>Bello</Text>
+                            <Text variant="title" style={styles.heading}>StayScan Hotels</Text>
                             <Text variant="body" color={colors.text.secondary} style={styles.subheading}>Sign in to your account</Text>
                             {error && <Text variant="body" color={colors.brand.danger} style={styles.error}>{error}</Text>}
                             <Input
@@ -91,7 +92,7 @@ export default function LoginScreen() {
                                 disabled={loading || !email || !password}
                             />
                             <View style={{ height: spacing.lg }} />
-                            <Text variant="body" color={colors.text.secondary} style={{ textAlign: 'center', marginBottom: spacing.sm }}>New to Bello?</Text>
+                            <Text variant="body" color={colors.text.secondary} style={{ textAlign: 'center', marginBottom: spacing.sm }}>New to StayScan?</Text>
                             <Button title="🏨 Create Hotel Account" color={colors.brand.accent} onPress={() => { WebBrowser.openBrowserAsync(`${CONFIG.WEB_BASE}/register`); }} />
                             <View style={styles.divider} />
                         </Container>
@@ -114,6 +115,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center',
         marginBottom: spacing.md,
+    },
+    logo: {
+        width: 48,
+        height: 48,
     },
     heading: { textAlign: 'center', marginBottom: spacing.xs, color: colors.text.primary },
     subheading: { textAlign: 'center', marginBottom: spacing.lg },

@@ -10,8 +10,8 @@ Here’s a clean Markdown questionnaire you can fill in. I’ll use your answers
     -   [ ] iOS
 -   API base URLs:
     -   Dev: http://localhost:3000/api
-    -   Staging: https://staging.your-bello-domain.com/api
-    -   Prod: https://api.your-bello-domain.com
+    -   Staging: https://staging.your-stayscan-domain.com/api
+    -   Prod: https://api.your-stayscan-domain.com
 
 ## Roles & Access
 
@@ -179,7 +179,7 @@ Cards: white bg, 1px subtle border, rounded 24px, soft shadow
 
 ## Repo & Code Sharing
 
--   Path to Expo app (bello_app): bello_app/
+-   Path to Expo app (stayscan_app): stayscan_app/
 -   Share types with web?
     -   [ ] Create shared package (e.g., /packages/shared-types)
     -   [x] Copy minimal types to mobile
